@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "created": "2026-06-06",
+    "module": "character_sheet",
+    "player": "北原·智道·穿越者"
+  },
+  "identity": {
+    "name": "许言",
+    "alias": null,
+    "age": 15,
+    "gender": "男"
+  },
+  "origin": {
+    "region": "北原",
+    "background": "部族成员",
+    "faction": "斡难部（小型部族，刚被黄金部族征服的附庸）",
+    "narrative": "斡难部是北原无数小部族之一，在最近一次王庭之争后被百足家收编为附庸。部族被迫缴纳沉重的贡赋，但仍保留了自己的帐篷和牲口。你的家族在部族中地位不高——蛊师族民的最底层。"
+  },
+  "cultivation": {
+    "rank": 1,
+    "sub_realm": "初阶",
+    "essence_current": 52,
+    "essence_max": 52,
+    "essence_color": "翠绿色（青铜真元·初阶）"
+  },
+  "aptitude": {
+    "grade": "乙等",
+    "essence_percent": 52.0,
+    "true_essence_fill": "5成2（乙等下等，接近乙丙边界）",
+    "recovery_per_hour": 6,
+    "natural_cap": "三转至四转",
+    "rare_cap": "四转",
+    "social_role": "潜力尚可。部族会投入一些资源培养，但远不及甲等天才的待遇。",
+    "physique_type": null
+  },
+  "attributes": {
+    "STR": 12,
+    "AGI": 9,
+    "CON": 9,
+    "INT": 10,
+    "WIL": 6,
+    "PER": 9
+  },
+  "derived": {
+    "HP": 69,
+    "HP_current": 69,
+    "Soul_HP": 50,
+    "Soul_HP_current": 50,
+    "initiative_bonus": 18
+  },
+  "skills": {
+    "养蛊": {
+      "喂养管理": 1,
+      "蛊虫安抚": 1,
+      "蛊病治疗": 0,
+      "蛊池维护": 0
+    },
+    "用蛊": {
+      "单蛊操作": 2,
+      "多蛊协同": 0,
+      "杀招执行": 0,
+      "真元调控": 1
+    },
+    "炼蛊": {
+      "单炼驯服": 1,
+      "合炼合成": 0,
+      "逆炼降转": 0,
+      "配方分析": 1
+    },
+    "通用": {
+      "侦察": 1,
+      "隐匿": 1,
+      "交涉": 1,
+      "医术": 0,
+      "学识": 3,
+      "生存": 2,
+      "追踪": 0,
+      "巧手": 0
+    }
+  },
+  "path": {
+    "primary": "智道",
+    "secondary": [],
+    "path_level": "入门",
+    "note": "智道在北原极为罕见。草原部族崇尚力量，智道被视为'不务正业'。你没有老师，只能靠自己摸索。但你的异世记忆让你对智道有天然的亲和力。"
+  },
+  "gu_inventory": {
+    "life_bound_gu": null,
+    "equipped_gu": [
+      {
+        "name": "直撞蛊",
+        "rank": 2,
+        "path": "力道",
+        "type": "攻击/移动",
+        "effect": "直线冲撞——同时兼具力道攻击和快速移动效果。二转凡蛊。",
+        "essence_cost": "约15分/次",
+        "food": "需要喂食兽骨粉末，每三日一次",
+        "note": "北原部族配发的基础战斗蛊。与你的智道路线不匹配，但目前是你唯一的攻击手段。"
+      },
+      {
+        "name": "自爆蛊",
+        "rank": 1,
+        "path": "炎道/特殊",
+        "type": "攻击/自毁",
+        "effect": "引爆自身造成范围伤害。使用者通常也受重创。用于绝境同归于尽。",
+        "essence_cost": "30分/次（一次性消耗+自伤）",
+        "note": "你从迁徙途中遇到的一具干尸身上找到的。前任主人显然没来得及用。这是最后的底牌——但用了大概率自己也会死。"
+      }
+    ],
+    "stored_gu": []
+  },
+  "resources": {
+    "primeval_stones": 20,
+    "immortal_essence_stones": 0,
+    "gu_materials": [
+      {"name": "兽骨碎片", "qty": 5, "usage": "直撞蛊饲料"},
+      {"name": "牛皮水囊", "qty": 1}
+    ],
+    "other_items": [
+      "骨刀（草原常见的武器）",
+      "羊皮外套（迁徙途中保暖）"
+    ]
+  },
+  "special_identity": {
+    "is_transmigrator": true,
+    "type": "完整天外之魔",
+    "origin_world": "地球-华夏",
+    "past_life_memory": {
+      "knowledge_domains": ["博弈论与策略思维", "概率计算与统计学直觉", "历史军事谋略（孙子兵法/三国）", "基础科学方法论"],
+      "earthly_skills": ["围棋/象棋级战略思维", "逻辑推理"]
+    },
+    "destiny_immunity": true,
+    "heaven_will_target": true
+  },
+  "status_effects": []
+}
