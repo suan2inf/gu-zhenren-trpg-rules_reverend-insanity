@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "module": "character_template",
+    "description": "角色卡JSON Schema。定义所有字段及取值范围，供角色创建时使用。",
+    "sources": ["蛊真人_01_第一卷_魔道.md"]
+  },
+  "schema": {
+    "identity": {
+      "name": {"type": "string", "description": "角色姓名"},
+      "alias": {"type": "string", "description": "称号/外号（可选）"},
+      "age": {"type": "integer", "min": 15, "description": "年龄。蛊师从15岁开窍大典开始修行。穿越者可自定义。"},
+      "gender": {"type": "string", "enum": ["男", "女"]}
+    },
+    "origin": {
+      "region": {"type": "string", "enum": ["南疆", "北原", "中洲", "东海", "西漠", "黑天", "白天"], "description": "出身地域"},
+      "background": {"type": "string", "enum": ["家族子弟", "门派弟子", "部族成员", "散修", "商队成员", "异人"], "description": "出身类型"},
+      "faction": {"type": "string", "description": "具体家族/门派名称（参考world/factions.json）"}
+    },
+    "cultivation": {
+      "rank": {"type": "integer", "min": 0, "max": 9, "default": 0, "description": "蛊师转数。0=未开窍凡人，1=一转初阶"},
+      "sub_realm": {"type": "string", "enum": ["初阶", "中阶", "高阶", "巅峰"], "default": "初阶"},
+      "essence_current": {"type": "integer", "description": "当前真元量（分）"},
+      "essence_max": {"type": "integer", "description": "最大真元量（分），由资质决定"}
+    },
+    "aptitude": {
+      "grade": {"type": "string", "enum": ["丁等", "丙等", "乙等", "甲等", "十绝体"], "description": "资质等级"},
+      "essence_percent": {"type": "float", "min": 0.0, "max": 100.0, "description": "真元占据空窍百分比（如44.0）"},
+      "physique_type": {"type": "string", "description": "若十绝体，指定具体种类"},
+      "self_destruct_timer": {"type": "integer", "description": "若十绝体，自爆倒计时（行动次数/天数）"}
+    },
+    "attributes": {
+      "STR": {"type": "integer", "min": 1, "max": 20},
+      "AGI": {"type": "integer", "min": 1, "max": 20},
+      "CON": {"type": "integer", "min": 1, "max": 20},
+      "INT": {"type": "integer", "min": 1, "max": 20},
+      "WIL": {"type": "integer", "min": 1, "max": 20},
+      "PER": {"type": "integer", "min": 1, "max": 20}
+    },
+    "derived": {
+      "HP": {"type": "integer", "formula": "CON × 5 + STR × 2"},
+      "HP_current": {"type": "integer"},
+      "Soul_HP": {"type": "integer", "formula": "WIL × 5 + INT × 2"},
+      "Soul_HP_current": {"type": "integer"},
+      "initiative_bonus": {"type": "integer", "formula": "AGI + PER"}
+    },
+    "skills": {
+      "养蛊": {
+        "喂养管理": {"type": "integer", "min": 0, "max": 10, "default": 1},
+        "蛊虫安抚": {"type": "integer", "min": 0, "max": 10, "default": 1},
+        "蛊病治疗": {"type": "integer", "min": 0, "max": 10, "default": 0},
+        "蛊池维护": {"type": "integer", "min": 0, "max": 10, "default": 0}
+      },
+      "用蛊": {
+        "单蛊操作": {"type": "integer", "min": 0, "max": 10, "default": 2},
+        "多蛊协同": {"type": "integer", "min": 0, "max": 10, "default": 0},
+        "杀招执行": {"type": "integer", "min": 0, "max": 10, "default": 0},
+        "真元调控": {"type": "integer", "min": 0, "max": 10, "default": 1}
+      },
+      "炼蛊": {
+        "单炼驯服": {"type": "integer", "min": 0, "max": 10, "default": 1},
+        "合炼合成": {"type": "integer", "min": 0, "max": 10, "default": 0},
+        "逆炼降转": {"type": "integer", "min": 0, "max": 10, "default": 0},
+        "配方分析": {"type": "integer", "min": 0, "max": 10, "default": 0}
+      },
+      "通用": {
+        "侦察": {"type": "integer", "min": 0, "max": 10, "default": 1},
+        "隐匿": {"type": "integer", "min": 0, "max": 10, "default": 1},
+        "交涉": {"type": "integer", "min": 0, "max": 10, "default": 1},
+        "医术": {"type": "integer", "min": 0, "max": 10, "default": 0},
+        "学识": {"type": "integer", "min": 0, "max": 10, "default": 1},
+        "生存": {"type": "integer", "min": 0, "max": 10, "default": 1},
+        "追踪": {"type": "integer", "min": 0, "max": 10, "default": 0},
+        "巧手": {"type": "integer", "min": 0, "max": 10, "default": 0}
+      }
+    },
+    "path": {
+      "primary": {"type": "string", "description": "主修流派（参考character/paths.json）"},
+      "secondary": {"type": "array", "items": {"type": "string"}, "description": "辅修流派", "maxItems": 2},
+      "path_level": {"type": "string", "enum": ["入门", "普通", "精通", "大师", "宗师", "大宗师", "无上大宗师"], "default": "入门"}
+    },
+    "gu_inventory": {
+      "life_bound_gu": {"type": "object", "description": "本命蛊详情（name/rank/effect/cost/food）"},
+      "equipped_gu": {"type": "array", "items": {"type": "object"}, "description": "已炼化装备的蛊虫列表"},
+      "stored_gu": {"type": "array", "items": {"type": "object"}, "description": "拥有但未炼化的蛊虫列表"}
+    },
+    "resources": {
+      "primeval_stones": {"type": "integer", "description": "持有元石数量", "default": 0},
+      "immortal_essence_stones": {"type": "integer", "description": "仙元石（仅蛊仙）", "default": 0},
+      "gu_materials": {"type": "array", "items": {"type": "object"}, "description": "炼蛊材料库存"},
+      "other_items": {"type": "array", "items": {"type": "object"}, "description": "其他道具/装备"}
+    },
+    "special_identity": {
+      "is_transmigrator": {"type": "boolean", "default": false, "description": "是否为天外之魔（穿越者）"},
+      "origin_world": {"type": "string", "description": "穿越来源世界（如'地球-华夏'）"},
+      "past_life_memory": {"type": "object", "description": "前世记忆（技能/知识/关键信息）"},
+      "destiny_immunity": {"type": "boolean", "default": false, "description": "对宿命的免疫程度（完整天外之魔=完全免疫）"}
+    },
+    "status_effects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string"},
+          "source": {"type": "string"},
+          "duration": {"type": "string"},
+          "effect": {"type": "string"}
+        }
+      },
+      "description": "当前状态效果（buff/debuff）"
+    }
+  },
+  "json_example": {
+    "identity": {"name": "古月方源", "alias": null, "age": 15, "gender": "男"},
+    "origin": {"region": "南疆", "background": "家族子弟", "faction": "古月山寨"},
+    "cultivation": {"rank": 1, "sub_realm": "初阶", "essence_current": 44, "essence_max": 44},
+    "aptitude": {"grade": "丙等", "essence_percent": 44.0, "physique_type": null},
+    "attributes": {"STR": 11, "AGI": 12, "CON": 13, "INT": 15, "WIL": 16, "PER": 14},
+    "path": {"primary": "力道", "secondary": ["毒道"], "path_level": "入门"},
+    "gu_inventory": {
+      "life_bound_gu": {"name": "春秋蝉", "rank": 6, "note": "六转仙蛊。本命蛊。从五百年后带回。目前无法催动。"},
+      "equipped_gu": [{"name": "月光蛊", "rank": 1, "effect": "发射月刃"}],
+      "stored_gu": [{"name": "酒虫", "rank": 1, "effect": "提纯真元一级"}]
+    },
+    "resources": {"primeval_stones": 30, "other_items": ["开山刀"]},
+    "special_identity": {
+      "is_transmigrator": true,
+      "origin_world": "地球-华夏",
+      "past_life_memory": {"earthly_knowledge": "唐诗宋词、三国谋略、经济学原理、现代科学思维"},
+      "destiny_immunity": true
+    }
+  }
+}

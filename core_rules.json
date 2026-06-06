@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "module": "core_rules",
+    "description": "核心机制引擎。所有判定、流程、基础公式的入口。",
+    "sources": ["蛊真人_01_第一卷_魔道.md"]
+  },
+  "dice_system": {
+    "base": "d100",
+    "description": "所有核心判定使用百分骰（1d100），结果越大越好。",
+    "critical": {
+      "critical_success": [96, 100],
+      "description_cs": "大成功（96-100）：效果超额完成，且可能有意外收获",
+      "critical_failure": [1, 5],
+      "description_cf": "大失败（1-5）：彻底失败，且可能引发反噬/意外灾难"
+    },
+    "advantage_disadvantage": {
+      "advantage": "投两次d100，取高值",
+      "disadvantage": "投两次d100，取低值",
+      "triggers": "环境有利/不利、蛊虫克制/被克、充分准备/仓促应对"
+    }
+  },
+  "attribute_system": {
+    "core_attributes": {
+      "strength": {
+        "name": "力量",
+        "abbr": "STR",
+        "description": "肉身力量。影响：力道蛊虫威力、近战伤害、负重、体质相关判定",
+        "range": [1, 20],
+        "default": 10
+      },
+      "agility": {
+        "name": "敏捷",
+        "abbr": "AGI",
+        "description": "身手灵巧。影响：闪避、先手顺序、移动类蛊虫效果、精巧操作",
+        "range": [1, 20],
+        "default": 10
+      },
+      "constitution": {
+        "name": "体质",
+        "abbr": "CON",
+        "description": "身体耐力。影响：生命值上限、伤势恢复速度、毒素/反噬抵抗",
+        "range": [1, 20],
+        "default": 10
+      },
+      "intelligence": {
+        "name": "智力",
+        "abbr": "INT",
+        "description": "思维智慧。影响：智道蛊虫效果、炼蛊成功率、杀招构思、蛊方分析",
+        "range": [1, 20],
+        "default": 10
+      },
+      "willpower": {
+        "name": "意志",
+        "abbr": "WIL",
+        "description": "精神意志。影响：魂道相关、蛊虫炼化对抗、反噬抵抗、意志类判定",
+        "range": [1, 20],
+        "default": 10
+      },
+      "perception": {
+        "name": "感知",
+        "abbr": "PER",
+        "description": "观察洞察。影响：侦察蛊虫效果、察觉陷阱/埋伏、识破伪装",
+        "range": [1, 20],
+        "default": 10
+      }
+    },
+    "derived_stats": {
+      "hp": {
+        "name": "生命值",
+        "description": "肉身生命。归零则角色重伤濒死。受到超出50%当前HP的单次伤害可能触发昏迷。",
+        "formula": "CON × 5 + STR × 2",
+        "body_part_tracking": true,
+        "body_parts": ["头部", "躯干", "左臂", "右臂", "左腿", "右腿"]
+      },
+      "soul_hp": {
+        "name": "魂魄值",
+        "description": "魂魄强度。归零则魂魄重创（失忆/痴傻/魂魄飞散）。独立于肉身HP。",
+        "formula": "WIL × 5 + INT × 2",
+        "sources": ["蛊真人_06_第六卷_魔尊永生.md §魂魄重伤"]
+      },
+      "essence_max": {
+        "name": "真元上限",
+        "description": "空窍可储存的真元最大值（单位：分，100分=1成），由资质决定。",
+        "formula": "由资质百分比 × 100",
+        "sources": ["蛊真人_01_第一卷_魔道.md 第538行"]
+      },
+      "essence_recovery": {
+        "name": "真元恢复",
+        "description": "每小时自然恢复的真元量（单位：分）。",
+        "formula": "由资质等级决定",
+        "sources": ["蛊真人_01_第一卷_魔道.md 第798行"]
+      },
+      "initiative": {
+        "name": "先攻值",
+        "formula": "AGI + PER + d10"
+      }
+    }
+  },
+  "skill_system": {
+    "description": "技能分为三大领域，每领域下有具体技能。技能等级1-10。",
+    "domains": {
+      "gu_nurture": {
+        "name": "养蛊",
+        "skills": ["喂养管理", "蛊虫安抚", "蛊病治疗", "蛊池维护"]
+      },
+      "gu_usage": {
+        "name": "用蛊",
+        "skills": ["单蛊操作", "多蛊协同", "杀招执行", "真元调控"]
+      },
+      "gu_refinement": {
+        "name": "炼蛊",
+        "skills": ["单炼（驯服）", "合炼（合成）", "逆炼（降转）", "配方分析"]
+      },
+      "general": {
+        "name": "通用",
+        "skills": ["侦察", "隐匿", "交涉", "医术", "学识", "生存", "追踪", "巧手"]
+      }
+    }
+  },
+  "check_resolution": {
+    "description": "核心判定流程。AI主持人根据玩家行动，确定属性/技能，计算目标值，投骰，输出结果。",
+    "flow": [
+      "1. 确定判定属性（如STR/INT等）和/或技能等级",
+      "2. 计算基准值 = 属性 × 2 + 技能等级 × 3",
+      "3. 施加修正：有利/不利环境 ±10~30，蛊虫加成 +5~20，伤势减值 -5~20",
+      "4. 确定难度等级（见下表）",
+      "5. 玩家投1d100，加上总修正值，与难度阈值比较",
+      "6. 输出叙事结果"
+    ],
+    "difficulty_table": {
+      "trivial": {"name": "微不足道", "d100_threshold": 30, "example": "日常喂养已驯服的蛊虫"},
+      "easy": {"name": "简单", "d100_threshold": 50, "example": "在安全环境炼化一只一转蛊"},
+      "moderate": {"name": "中等", "d100_threshold": 70, "example": "战斗中同时催动两只蛊"},
+      "hard": {"name": "困难", "d100_threshold": 85, "example": "越级使用高转蛊虫"},
+      "very_hard": {"name": "极难", "d100_threshold": 95, "example": "合炼提升蛊虫转数"},
+      "legendary": {"name": "传奇", "d100_threshold": 110, "example": "自创全新杀招/蛊方"}
+    },
+    "degree_of_success": {
+      "description": "超出阈值的量决定成功程度",
+      "marginal": {"excess": [0, 9], "effect": "勉强成功，可能有副作用"},
+      "solid": {"excess": [10, 29], "effect": "标准成功"},
+      "great": {"excess": [30, 49], "effect": "优异成功，额外收益"},
+      "exceptional": {"excess": [50, null], "effect": "完美成功，最大化效果"}
+    }
+  },
+  "turn_structure": {
+    "description": "游戏基本回合结构。适用于探索、社交、战斗等所有场景。",
+    "flow": [
+      {"phase": "1. 场景叙述", "gm": "AI主持人描述当前场景、环境、可感知的信息"},
+      {"phase": "2. 玩家行动", "player": "玩家输入角色行动（自由文本，AI理解意图）"},
+      {"phase": "3. 判定解析", "gm": "AI解析行动类型，确定需要的属性和技能，设置难度"},
+      {"phase": "4. 掷骰裁决", "system": "执行d100判定，计算成功度"},
+      {"phase": "5. 结果叙述", "gm": "AI根据判定结果叙述发生了什么"},
+      {"phase": "6. 状态更新", "system": "更新真元消耗、伤势、蛊虫状态、经验等待"},
+      {"phase": "7. 选项提示", "gm": "AI提供2-4个合理的后续行动选项供玩家参考"}
+    ]
+  },
+  "narrative_principles": {
+    "description": "AI主持人必须遵循的叙事核心原则，源自原著精神。",
+    "source": "蛊真人_01_第一卷_魔道.md 第6-65行（序言）",
+    "rules": [
+      "世界是残酷的——资源有限，竞争激烈。NPC不会对玩家有特殊优待。",
+      "正道不纯善——正道也会掠夺、欺骗、利用，只是披着道德外衣。魔道不纯恶——也有自己的原则和底线。",
+      "死亡是真实的——角色可能永久死亡。没有'主角光环'自动保护。",
+      "行动有后果——杀NPC、践踏规则、暴露秘密都会引来对应的报复。",
+      "智斗优先——聪明地利用规则和蛊虫组合比蛮力更有效。信息差是核心武器。",
+      "不圣母——敌对美女该杀就杀，道义威胁不存在'以德服人'。",
+      "九转之隔——高转对低转有碾压优势。越级挑战需要极大代价或完美计谋。"
+    ]
+  }
+}

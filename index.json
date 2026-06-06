@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "name": "蛊真人跑团规则系统",
+    "version": "1.0.0",
+    "description": "基于《蛊真人》小说世界观，适配LLM全自动主持的单人硬核跑团规则。所有规则均参考原著原文，含出处标注。",
+    "era": "早期青茅山时代（与方源同期）",
+    "play_mode": "单人，AI全自动担任GM",
+    "source_novel": "蛊真人",
+    "source_files": "分卷/蛊真人_XX_第X卷_XXX.md",
+    "language": "zh-CN"
+  },
+  "file_index": {
+    "core": {
+      "core_rules.json": "核心机制：判定公式、回合流程、属性定义、AI主持通用流程",
+      "rank_advancement.json": "九转体系完整规则：每转特征、真元颜色表、突破条件、灾劫系统"
+    },
+    "character": {
+      "character/template.json": "角色卡JSON Schema：所有字段定义和取值范围",
+      "character/aptitudes.json": "资质系统：甲乙丙丁+十绝体，真元容量/恢复率/上限",
+      "character/origins.json": "出身系统：五域两天×家族/门派/散修，初始资源分配",
+      "character/paths.json": "流派/道途：二十余道特征、擅长方向、时代修正",
+      "character/special_identities.json": "特殊身份：穿越者/重生者/天外之魔可选规则"
+    },
+    "gu_system": {
+      "gu_system/encyclopedia.json": "蛊虫百科：按转数收录已知蛊虫数据（名称/效果/消耗/饲养/来源出处）",
+      "gu_system/crafting.json": "炼蛊规则：单炼/合炼/逆炼、成功率计算、失败后果",
+      "gu_system/killer_moves.json": "杀招系统：组合规则、核心蛊+辅助蛊结构、反噬机制",
+      "gu_system/immortal_gu.json": "仙蛊特殊规则：仙蛊与凡蛊区别、喂养难度、道痕要求"
+    },
+    "combat": {
+      "combat/mechanics.json": "战斗机制：回合制、真元消耗、伤害计算、伤势等级",
+      "combat/injuries.json": "伤势系统：肉身+魂魄双轨、治疗手段、后遗症",
+      "combat/formations.json": "蛊阵系统：阵法构建、维持消耗、阵眼机制"
+    },
+    "world": {
+      "world/regions.json": "五域+两天完整地理：地形/气候/特色资源/交通方式",
+      "world/factions.json": "势力全览：正道/魔道/散修、家族/门派/部族结构",
+      "world/economy.json": "经济系统：元石货币体系、蛊材交易、宝黄天",
+      "world/timeline.json": "时代事件表：青茅山时代关键时间节点"
+    },
+    "gm_engine": {
+      "gm_engine/oracle.json": "GM随机表：遭遇/天气/事件/NPC生成/宝藏",
+      "gm_engine/narrative.json": "AI叙事风格约束：《蛊真人》黑暗残酷/智斗/不圣母的叙事基调",
+      "gm_engine/challenge_builder.json": "动态难度生成：根据玩家转数和蛊虫配置自动调整挑战",
+      "gm_engine/quest_generator.json": "任务自动生成规则：任务类型/奖励/难度评估"
+    },
+    "scenarios": {
+      "scenarios/start_nanjiang.json": "南疆开局模组（青茅山/白骨山/商家城）",
+      "scenarios/start_beiyuan.json": "北原开局模组（草原部族/王庭之争）",
+      "scenarios/start_zhongzhou.json": "中洲开局模组（十大派/天庭）",
+      "scenarios/start_donghai.json": "东海开局模组（海岛/鲛人/海商）",
+      "scenarios/start_ximo.json": "西漠开局模组（绿洲/商队/沙漠）",
+      "scenarios/events_random.json": "通用随机事件库"
+    },
+    "reference": {
+      "reference/terminology.json": "术语释义对照表：所有专有名词的中文解释，供LLM查询"
+    }
+  },
+  "loading_guide": {
+    "player_turn": "每回合玩家输入行动后，AI主持人依次加载：core_rules → combat/mechanics → gu_system/encyclopedia 相关条目 → gm_engine/oracle 相关表 → gm_engine/narrative",
+    "character_creation": "依次加载：character/template → character/aptitudes → character/origins → character/paths → character/special_identities（可选）→ world/regions",
+    "gu_related": "涉及蛊虫操作时加载：gu_system/encyclopedia 目标蛊条目 → gu_system/crafting 或 combat/mechanics",
+    "world_query": "涉及地点/势力时加载：world/regions → world/factions → world/economy"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "module": "injuries",
+    "description": "伤势系统。肉身HP和魂魄HP双轨制。伤势分级、治疗手段、后遗症。",
+    "sources": [
+      "蛊真人_01_第一卷_魔道.md 第6743行",
+      "蛊真人_02_第二卷_逆天.md 第14890行",
+      "蛊真人_06_第六卷_魔尊永生.md 第10922-10937行、第1183-1184行"
+    ]
+  },
+  "injury_levels": {
+    "physical": {
+      "light": {
+        "name": "轻伤",
+        "hp_loss": "HP在80%以上",
+        "effect": "无战斗减值",
+        "natural_recovery": "无治疗：每日恢复CON/2 HP。有基础治疗蛊：即刻恢复。",
+        "source": "蛊真人_01_第一卷_魔道.md 第6743行"
+      },
+      "moderate": {
+        "name": "中度伤",
+        "hp_loss": "HP在50%-80%",
+        "effect": "全检定-5",
+        "natural_recovery": "无治疗：每日恢复CON/4 HP。有治疗蛊：点数恢复。"
+      },
+      "severe": {
+        "name": "重伤",
+        "hp_loss": "HP在20%-50%",
+        "effect": "全检定-15，每回合移动距离减半",
+        "natural_recovery": "无治疗：每日恢复CON/8 HP。需二转以上治疗蛊。",
+        "special_treatment": "某些特殊伤势（如虚道、魂道创伤）需要专门流派治疗蛊，通用治疗蛊无效",
+        "source": "蛊真人_06_第六卷_魔尊永生.md 第1183-1184行"
+      },
+      "critical": {
+        "name": "濒死",
+        "hp_loss": "HP在0%-20%",
+        "effect": "全检定-30，无法催动任何需要动作的蛊虫。每次行动需检定是否有意识。",
+        "natural_recovery": "无治疗：无法自然恢复。需四转以上治疗蛊或长期修养。"
+      }
+    },
+    "soul": {
+      "light": {
+        "name": "魂魄轻创",
+        "soul_hp_loss": "魂魄HP在80%以上",
+        "effect": "无减值",
+        "treatment": "平和环境静养或一转魂道治疗蛊"
+      },
+      "moderate": {
+        "name": "魂魄震荡",
+        "soul_hp_loss": "魂魄HP在50%-80%",
+        "effect": "意志检定-10。可能做噩梦/记忆模糊。",
+        "treatment": "需魂道治疗蛊"
+      },
+      "severe": {
+        "name": "魂魄重创",
+        "soul_hp_loss": "魂魄HP在20%-50%",
+        "effect": "意志检定-25，记忆严重受损（可能忘记技能/蛊虫使用方式），反应迟钝",
+        "treatment": "胆识蛊为最优解。许多治疗手段有后遗症。",
+        "source": "蛊真人_06_第六卷_魔尊永生.md 第10922-10937行"
+      },
+      "devastating": {
+        "name": "魂魄碎散",
+        "soul_hp_loss": "魂魄HP在0%-20%",
+        "effect": "接近死亡。痴傻、失忆、魂飞魄散风险。角色可能无法正常行动。",
+        "treatment": "只有最高级的魂道手段或仙蛊才能挽救"
+      }
+    }
+  },
+  "injury_sources": {
+    "physical_combat": "物理攻击、蛊虫直伤、爆炸、跌落",
+    "gu_backlash": "炼蛊失败、杀招崩溃、越级使用高转蛊",
+    "environmental": "酷热、严寒、毒气、溺水",
+    "soul_attack": "魂道蛊虫、魂道杀招、特殊境界伤害",
+    "dao_mark_conflict": "使用与自身流派冲突的蛊虫",
+    "heavenly_disaster": "灾劫（蛊仙阶段）"
+  },
+  "healing_methods": {
+    "natural": {
+      "physical": "每日自然恢复 = CON/2（轻伤）/ CON/4（中度）/ CON/8（重伤）HP",
+      "soul": "每日自然恢复 = WIL/4 魂魄HP（仅轻度/中度）"
+    },
+    "healing_gu": {
+      "description": "治疗蛊虫的效果取决于其转数和流派。高转治疗蛊可瞬间愈合重伤。",
+      "rank_effectiveness": {
+        "1转": "恢复1d10+5 HP",
+        "2转": "恢复2d10+10 HP",
+        "3转": "恢复3d10+15 HP，可治疗重伤",
+        "4转": "恢复4d10+30 HP，可治疗濒死",
+        "5转+": "几乎完全恢复"
+      }
+    },
+    "self_reliance_gu": {
+      "name": "自力更生蛊",
+      "description": "三转力道治疗蛊。效果与使用者的STR挂钩。STR越高恢复越多，最大可媲美四转治疗蛊。",
+      "source": "蛊真人_02_第二卷_逆天.md 第14890行"
+    },
+    "胆识蛊": {
+      "name": "胆识蛊",
+      "description": "魂魄治疗的最优解。效果远比其他手段好，且无后遗症。",
+      "source": "蛊真人_06_第六卷_魔尊永生.md 第10922-10937行"
+    }
+  },
+  "treatment_side_effects": {
+    "description": "许多治疗手段（特别是魂魄治疗）会留下后遗症。只有特定高级手段（如胆识蛊）才是完美的。",
+    "generic": "非本流派治疗术可能留下隐性后遗症（恢复后一段时间内相关检定小幅减值）",
+    "soul_treatment_bad": "大多数魂魄治疗手段有副作用：记忆碎片化、性格改变、短期痴傻"
+  },
+  "body_part_injuries": {
+    "description": "特定身体部位受伤会有额外效果（可选高级规则）",
+    "head": "受伤：INT和PER相关检定-10。重伤：昏迷风险。",
+    "torso": "受伤：CON相关检定-10。重伤：内脏出血持续扣HP。",
+    "arms": "受伤：催动蛊虫检定-10。重伤：该手臂无法使用。",
+    "legs": "受伤：移动速度减半。重伤：无法移动。"
+  }
+}

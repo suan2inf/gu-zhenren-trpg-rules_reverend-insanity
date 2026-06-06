@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "module": "challenge_builder",
+    "description": "动态难度生成。根据玩家当前转数、蛊虫配置、资质自动构建合适难度的挑战。",
+    "sources": ["蛊真人 游戏设计"]
+  },
+  "principle": "挑战应有'刚好能赢但需要动脑'的难度。太简单无趣，太困难不公平。但也要允许玩家'作死'——挑战远超自身的敌人应该有相应的代价。",
+  "difficulty_calculation": {
+    "input_factors": [
+      "玩家当前转数和小境界",
+      "玩家的蛊虫配置（攻击/防御/治疗是否齐全）",
+      "是否有杀招",
+      "资质（影响续航）",
+      "当前HP和真元状态",
+      "是否有特殊身份加成"
+    ],
+    "difficulty_levels": {
+      "trivial": {"desc": "碾压局——玩家闭眼都能赢", "enemy_rank_offset": -2},
+      "easy": {"desc": "简单——花费一些真元可解决", "enemy_rank_offset": -1},
+      "standard": {"desc": "标准——需要认真对待的对手", "enemy_rank_offset": 0},
+      "challenging": {"desc": "挑战——需要聪明策略才能赢", "enemy_rank_offset": 0, "note": "敌人有数量优势或环境优势"},
+      "hard": {"desc": "困难——死亡风险真实存在", "enemy_rank_offset": 1},
+      "deadly": {"desc": "致命——大概率死亡。需要完美计谋+极大代价", "enemy_rank_offset": 2, "note": "AI应明确警告玩家这很可能送命"},
+      "impossible": {"desc": "不可能——正面战斗必死。必须逃跑或另辟蹊径。", "enemy_rank_offset": "≥+3"}
+    }
+  },
+  "enemy_generation": {
+    "description": "基于玩家实力生成合理敌人",
+    "enemy_template": {
+      "name": "string",
+      "rank": "integer",
+      "sub_realm": "string",
+      "path": "string",
+      "gu_set": "array（至少1攻击+1防御）",
+      "tactics": "string（AI行为模式：猛攻/防守反击/论持久战/见风使舵）",
+      "loot_quality": "参照gm_engine/oracle.json的掉落表"
+    },
+    "enemy_examples": {
+      "强盗蛊师": {"rank": 2, "path": "力道", "tactics": "猛攻——上来就全力一击"},
+      "野兽蛊群": {"rank": "相当于2转", "tactics": "数量压制——围攻"},
+      "散修老手": {"rank": 3, "path": "魂道", "tactics": "防守反击——用魂魄攻击拖垮对手"},
+      "家族子弟": {"rank": 2, "path": "炎道", "tactics": "标准——正面交锋，真元不足时撤退"}
+    }
+  },
+  "engagement_scaling": {
+    "description": "多敌人遭遇时的数量平衡",
+    "single_enemy": "1个与玩家同转敌人 = 标准难度",
+    "multiple_equal": "2个同转 = 困难。3个 = 致命。",
+    "mixed_ranks": "1个高转+若干低转 = 高转为主威胁，低转为干扰",
+    "horde": "大量低转（5+）= 每个个体弱，但消耗战可能拖死玩家（真元不足）"
+  },
+  "environmental_modifiers": {
+    "description": "环境对战斗的影响权重",
+    "rain": "水道+15% / 炎道-20%",
+    "darkness": "暗道+15% / 光道-20%",
+    "high_altitude": "气道+15% / 土道-10%",
+    "underwater": "水道+20% / 炎道不可用 / 力道上浮-10%",
+    "desert_heat": "炎道+10% / 冰道-20%",
+    "narrow_space": "力道-10%（无法挥洒）/ 剑道不变"
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "module": "mechanics",
+    "description": "战斗机制。回合制战斗、真元消耗与伤害计算规则。",
+    "sources": [
+      "蛊真人_01_第一卷_魔道.md 第1674-1684行、第1739行、第7357行、第16857-16861行",
+      "蛊真人_06_第六卷_魔尊永生.md 第2368行、第9080行、第9382行"
+    ]
+  },
+  "combat_round": {
+    "description": "战斗以回合为单位。每回合约6秒（一念之间）。",
+    "sequence": [
+      {"step": 1, "name": "先攻判定", "description": "所有参与者投1d10 + AGI + PER。先攻值最高者先行动。"},
+      {"step": 2, "name": "行动声明", "description": "玩家声明动作（使用哪只蛊、催动哪个杀招、移动等）"},
+      {"step": 3, "name": "真元消耗结算", "description": "从当前真元中扣除蛊虫/杀招的消耗"},
+      {"step": 4, "name": "命中判定", "description": "攻击方d100 + 相关属性 + 技能 vs 防守方闪避/防御值"},
+      {"step": 5, "name": "伤害结算", "description": "命中成功后计算伤害"},
+      {"step": 6, "name": "联动/反应", "description": "敌方反应行动（如反击蛊虫效果）"},
+      {"step": 7, "name": "状态结算", "description": "回合结束，处理debuff/buff持续时间"}
+    ]
+  },
+  "gu_activation": {
+    "three_steps": {
+      "1_mind": "意志调动蛊虫到身体目标位置（如手心）",
+      "2_essence": "将空窍中的真元灌入蛊虫",
+      "3_execute": "释放蛊虫效果（如挥手发射月刃）"
+    },
+    "source": "蛊真人_01_第一卷_魔道.md 第1674-1684行",
+    "cost_per_use": {
+      "description": "每只蛊每次催动消耗固定量真元（单位：分）。转数越高消耗越大。",
+      "formula": "消费 = 蛊虫转数 × 5 + 基础消耗。具体消耗见各蛊虫条目。",
+      "cross_rank_penalty": "使用高于自身转数的蛊虫：消耗×3且每个回合需要额外检定（d100+WIL>难度），失败=反噬",
+      "source": "蛊真人_01_第一卷_魔道.md 第16857-16861行"
+    },
+    "multi_gu_penalty": {
+      "description": "同一回合内催动多只蛊虫会产生干扰。同阵营多人同时催动蛊虫也会互相干扰。",
+      "single_gu": "正常检定",
+      "two_gu": "第二只蛊检定-10",
+      "three_gu": "第三只蛊检定-20。内耗严重：'自家先内耗了三四分'。",
+      "source": "蛊真人_06_第六卷_魔尊永生.md 第2368行"
+    }
+  },
+  "hit_calculation": {
+    "formula": "攻击命中 = d100 + 对应属性 + '单蛊操作'技能 × 2 + 蛊虫命中修正",
+    "defense": {
+      "dodge": "d100 + AGI × 2 + '单蛊操作'技能（如果有闪避类蛊虫）",
+      "block": "防御类蛊虫提供固定减免值",
+      "armor": "蛊师装备/蛊虫提供的伤害减免"
+    },
+    "hit_result": {
+      "critical_hit": "命中检定超过对方防御30+ = 暴击。伤害×2。",
+      "normal_hit": "命中检定超过防御0-29 = 正常伤害",
+      "graze": "命中检定与防御持平 = 擦伤，伤害减半",
+      "miss": "命中检定低于防御 = 未命中",
+      "critical_miss": "大失败（1-5）= 未命中+蛊虫使用不当（可能自伤）"
+    }
+  },
+  "damage_calculation": {
+    "description": "伤害 = 蛊虫基础伤害 + 属性加成 - 对方减免。",
+    "base_damage": "由蛊虫类型和转数决定（见gu_system/encyclopedia.json中每只蛊的伤害值）",
+    "attribute_bonus": {
+      "力道蛊虫": "+ STR/3",
+      "魂道蛊虫": "+ WIL/3（对魂魄HP）",
+      "炎道/雷道": "+ INT/3",
+      "其他": "无属性加成（纯靠蛊虫威力）"
+    },
+    "rank_power_differential": {
+      "description": "高转对低转的碾压。每相差一转，伤害×1.5，减免×1.5。",
+      "example": "三转蛊师用三转蛊打一转蛊师：伤害×3，减免×3（二转差距）"
+    },
+    "type_damage": {
+      "physical": "扣HP（可被防御和护甲减免）",
+      "soul": "扣魂魄HP（减免极少）",
+      "poison": "持续伤害，每回合扣HP",
+      "mental": "扣魂魄HP+意志debuff",
+      "mixed": "同时扣HP和魂魄HP"
+    }
+  },
+  "essence_in_combat": {
+    "no_stone_recovery": "战斗中不能使用元石回复真元！战斗中分心分神=找死。",
+    "passive_recovery": "只有天元宝莲等特殊蛊虫可在战斗中被动回复真元。",
+    "exhaustion": "真元归零时：无法催动任何蛊虫。只能进行基本动作（移动/闪避/徒手攻击）。",
+    "source": "蛊真人_01_第一卷_魔道.md 第16093-16094行"
+  },
+  "special_combat_rules": {
+    "ambush": "伏击方获得一轮自由行动（被伏击方不能闪避/防御）。侦察技能对抗隐匿技能。",
+    "terrain": "环境可能为某些流派提供加成/惩罚（雨天=水道+15%/'炎道-20%；山地=土道+15%/力道+10%）",
+    "dao_mark_conflict": "使用与自身主修道痕冲突的流派蛊虫，检定-15且可能对自身造成伤害",
+    "cross_rank_fatal_risk": "越级使用高转蛊虫（如一转蛊师用三转蛊）：每次使用需d100+WIL>85，失败则蛊虫强行催动+蛊师承受反噬重伤或死亡",
+    "source": "蛊真人_01_第一卷_魔道.md 第16857-16861行; 蛊真人_06_第六卷_魔尊永生.md 第9382行"
+  },
+  "combat_actions": {
+    "standard_actions": [
+      {"name": "催动蛊虫", "cost": "1动作 + 真元消耗", "description": "使用一只蛊虫"},
+      {"name": "执行杀招", "cost": "全回合动作", "description": "执行一个多蛊杀招"},
+      {"name": "徒手攻击", "cost": "1动作", "damage": "STR/5（很低）", "description": "无蛊虫时的基本攻击"},
+      {"name": "移动", "cost": "1动作", "description": "在战斗场地内移动"},
+      {"name": "使用道具", "cost": "1动作", "description": "投掷物品、使用非蛊虫道具"},
+      {"name": "防御姿态", "cost": "1动作", "description": "本回合闪避检定+15，但不能攻击"},
+      {"name": "换蛊", "cost": "1动作", "description": "将手中蛊虫换为另一只（需已在空窍中）"}
+    ],
+    "free_actions": [
+      {"name": "说话", "description": "简短喊话（一句以内）"},
+      {"name": "观察", "description": "快速扫视战场"}
+    ]
+  }
+}

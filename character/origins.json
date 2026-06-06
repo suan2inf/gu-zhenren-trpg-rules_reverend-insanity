@@ -1,0 +1,151 @@
+{
+  "meta": {
+    "module": "origins",
+    "description": "出身系统。覆盖五域两天的不同出身背景及其初始资源配置。",
+    "sources": [
+      "蛊真人_01_第一卷_魔道.md 第320行、第6269行",
+      "蛊真人_03_第三卷_北原.md 第1162-1165行、第2943-2967行、第3176-3177行",
+      "蛊真人_05_第五卷_魔王雄霸.md 第55959-55963行",
+      "蛊真人_06_第六卷_魔尊永生.md 第8621行、第10503行"
+    ]
+  },
+  "background_types": {
+    "family": {
+      "name": "家族子弟",
+      "description": "出生在修仙家族中，从小接受系统培养。受家族规则约束，但享有稳定的资源供给和庇护。",
+      "common_regions": ["南疆", "东海", "西漠"],
+      "progression_path": "15岁开窍大典→进入学堂→16岁毕业→五人小组完成家族任务→积累功勋→晋升家老→决策层",
+      "source": "蛊真人_01_第一卷_魔道.md 第6269行"
+    },
+    "sect": {
+      "name": "门派弟子",
+      "description": "加入正式门派修行。等级制度森严，但传承系统完整。",
+      "common_regions": ["中洲（十大古派）"],
+      "progression_path": "外门弟子→内门弟子→精英弟子→真传弟子→长老（四转）→掌门（五转中阶+）→太上长老（蛊仙）",
+      "source": "蛊真人_03_第三卷_北原.md 第1162-1165行"
+    },
+    "tribe": {
+      "name": "部族成员",
+      "description": "出生在大草原的游牧部族中。战斗文化浓厚，社会流动性大。",
+      "common_regions": ["北原"],
+      "progression_path": "普通族人→战士→部族勇士→部族长老→部族首领→黄金部族",
+      "source": "蛊真人_03_第三卷_北原.md 第2943-2967行"
+    },
+    "rogue": {
+      "name": "散修",
+      "description": "无门无派无家族的独行蛊师。自由度最高，但没有稳定资源来源，越强大越孤独。",
+      "common_regions": ["全部区域"],
+      "progression_path": "自行修炼→依附势力或始终保持独立→高等散修极其罕见",
+      "note": "魏央的洞见：越强大越明白自己的弱小。个体弱小，唯有依托家族才能更好生存。",
+      "source": "蛊真人_02_第二卷_逆天.md 第8263-8265行"
+    },
+    "merchant": {
+      "name": "商队成员",
+      "description": "随商队往返于各绿洲/城市之间，以贸易为生的蛊师。",
+      "common_regions": ["西漠（最盛）", "南疆", "东海"],
+      "source": "蛊真人_05_第五卷_魔王雄霸.md 第55959-55963行"
+    },
+    "foreign_race": {
+      "name": "异人",
+      "description": "非人类种族成员。人族主流社会边缘群体。",
+      "common_regions": ["黑天/白天（异族大本营）", "东海（鲛人）", "西漠（羽民等）"],
+      "races": ["毛民（自然炼蛊流派创始者）", "鲛人（东海海洋种族）", "墨人（大智洞天）", "石人", "小人", "羽民（西漠常见奴隶种族）"]
+    }
+  },
+  "region_starting_packages": {
+    "南疆": {
+      "description": "山林地带，名山众多。家族政治为主。易守难攻，慢积累。",
+      "family": {
+        "default_faction": "古月山寨（青茅山三族之一，小家族）",
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 30, "starter_gu": ["月光蛊（一转）"]},
+        "narrative_hook": "青茅山开窍大典刚结束，你成为了新晋蛊师。学堂的生活即将开始。"
+      },
+      "rogue": {
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 10, "starter_gu": ["随机一转凡蛊×1"]},
+        "narrative_hook": "你独自一人来到白骨山附近，听说这里常有野生蛊虫出没，但危险也不少。"
+      },
+      "key_locations": ["青茅山", "白骨山", "商家城（南疆贸易中心）", "三大江交汇处"]
+    },
+    "北原": {
+      "description": "广袤大草原。部族制为主，战斗文化浓厚。资源贫瘠但蛊师数量五域最多。",
+      "tribe": {
+        "default_faction": "某个中小型部族",
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 20, "starter_gu": ["随机力道一转蛊×1"]},
+        "narrative_hook": "部族迁徙途中，你是年轻一代中最有潜力的战士。王庭之争的阴影正在逼近。"
+      },
+      "rogue": {
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 5, "starter_gu": ["随机一转凡蛊×1"]},
+        "narrative_hook": "你不属于任何部族。北原的草原上，奴隶和散修是最底层。你需要一个好的开始。"
+      },
+      "key_locations": ["疯魔窟", "月牙湖", "八十八角真阳楼", "长生天"]
+    },
+    "中洲": {
+      "description": "五域最发达。天庭信仰+十大古派。四战之地，永远处于战争风险中。",
+      "sect": {
+        "default_faction": "十大古派之一的外门",
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 40, "starter_gu": ["随机一转凡蛊×2"]},
+        "narrative_hook": "你刚进入十大古派之一的外门。门规森严，但仙道传承完整。内门选拔即将开始。"
+      },
+      "rogue": {
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 15, "starter_gu": ["随机一转凡蛊×1"]},
+        "narrative_hook": "中洲的正魔对立极其激烈。作为散修，你必须在正道与魔道之间找到自己的生存之道。"
+      },
+      "key_locations": ["天庭圣地", "十大古派山门", "神帝城（人道圣地）", "悲风山脉"]
+    },
+    "东海": {
+      "description": "五域最富庶。汪洋大海，海岛如星。资源第一。无尊者出世，民风最温和。",
+      "family": {
+        "default_faction": "某个沿海贸易家族",
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 35, "starter_gu": ["随机一转凡蛊×1", "航海相关蛊×1"]},
+        "narrative_hook": "你出生在一个靠海吃饭的家族。东海富庶，但海盗和异族（鲛人）的威胁从未消失。"
+      },
+      "rogue": {
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 20, "starter_gu": ["随机一转凡蛊×1"]},
+        "narrative_hook": "东海海底潜流是商队的天然通道。也许你可以加入一支深海商队开始。"
+      },
+      "key_locations": ["气海", "鲛人王庭", "苍蓝龙鲸（乐土真传）", "海底潜流网络"]
+    },
+    "西漠": {
+      "description": "浩瀚沙漠，绿洲如星。天下商贸最发达。善于妥协、共存的文化。",
+      "merchant": {
+        "default_faction": "西漠某商队",
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 50, "starter_gu": ["随机一转凡蛊×1"]},
+        "narrative_hook": "你所在的商队准备出发穿越沙漠去下一个绿洲。沙漠危机四伏，但利润丰厚。"
+      },
+      "family": {
+        "default_faction": "某绿洲城池家族",
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 25, "starter_gu": ["随机一转凡蛊×1"]},
+        "narrative_hook": "你所在的绿洲面临水源危机。绿洲之间的竞争越来越激烈。"
+      },
+      "key_locations": ["沙狼城（莫家）", "各大绿洲城池", "沙漠遗迹", "羽民奴隶市场"]
+    },
+    "黑天": {
+      "description": "覆盖五域上方的虚空领域。异族大本营。人迹罕至但隐藏着无数洞天。",
+      "foreign_race": {
+        "default_faction": "某个异族洞天",
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 15, "starter_gu": ["随机种族相关蛊×1"]},
+        "narrative_hook": "你是黑天中某个异族洞天的年轻成员。两天之中比五域更危险也更自由。"
+      },
+      "key_locations": ["冰晶仙王领地", "夜狼洞天", "安魂洞天", "大智洞天（墨人）"]
+    },
+    "白天": {
+      "description": "黑天的对应领域。同样广阔，但阳光普照，条件相对温和。",
+      "foreign_race": {
+        "starting_rank": 1,
+        "starting_resources": {"primeval_stones": 15, "starter_gu": ["随机种族相关蛊×1"]},
+        "narrative_hook": "你生活在白天的某个洞天中。偶尔有五域来的探险蛊仙经过——是敌是友很难说。"
+      }
+    }
+  }
+}
